@@ -42,7 +42,7 @@ namespace Coolapk_UWP.Models
                 if (_cachedMessageWithEmojiJoined.Equals(string.Empty))
                 {
                     var msg = Message;
-                    EmojisUtil.Emojis.ForEach(emoji =>
+                    EmojisUtil.Emojis?.ForEach(emoji =>
                     {
                         msg = msg.Replace(emoji, "<emoji src=\"" + EmojisUtil.GetEmojiUriFor(emoji) + "\" />");
                     });
@@ -193,7 +193,7 @@ namespace Coolapk_UWP.Models
                 if (_cachedMessageWithEmojiJoined.Equals(String.Empty))
                 {
                     var msg = Message;
-                    EmojisUtil.Emojis.ForEach(emoji =>
+                    EmojisUtil.Emojis?.ForEach(emoji =>
                     {
                         msg = msg.Replace(emoji, "<emoji src=\"" + EmojisUtil.GetEmojiUriFor(emoji) + "\" />");
                     });
@@ -209,6 +209,9 @@ namespace Coolapk_UWP.Models
     /// </summary>
     public class RelationRow : Entity { }
 
+    /// <summary>
+    /// 对Feed文章的各种行为类，包括：是否点赞、是否关注用户、是否收藏文章等等
+    /// </summary>
     public class UserAction : NotifyPropertyBase
     {
         public bool _like = false;

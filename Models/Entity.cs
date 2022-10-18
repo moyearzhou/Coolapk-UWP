@@ -7,6 +7,7 @@ using Newtonsoft.Json.Converters;
 using Coolapk_UWP.Other;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.Toolkit.Uwp.UI.Controls;
 
 namespace Coolapk_UWP.Models
 {
@@ -15,6 +16,7 @@ namespace Coolapk_UWP.Models
         [JsonExtensionData]
         public IDictionary<string, JToken> OtherField { get; set; }
     }
+
     public class Entity : NotifyPropertyBase
     {
         [JsonExtensionData]
@@ -102,7 +104,7 @@ namespace Coolapk_UWP.Models
                 case "card":
                     switch (EntityTemplate)
                     {
-                        case "refreshCard":
+                        case "refreshCard": //刷新按钮
                             return Cast<RefreshCard>();
                         case "listCard":
                             if (Title == "😏 还有什么值得买？")
@@ -126,6 +128,10 @@ namespace Coolapk_UWP.Models
                             return Cast<ImageTextScrollCard>();
                         case "feedGroupListCard":
                             return Cast<ImageTextScrollCard>();
+                        case "imageSquareScrollCard":
+                            return Cast<ImageSquareScrollCard>();
+                        case "selectorLinkCard":
+                            return Cast<SelectorLinkCard>();
                     }
                     break;
                 case "album":
@@ -135,6 +141,10 @@ namespace Coolapk_UWP.Models
                             return Cast<IgnoreCard>();
                     }
                     break;
+                case "topic":
+                    return Cast<Topic>();
+                case "imageSquare":
+                    return Cast<ImageSquareCard>();
             }
             return this;
         }
@@ -179,6 +189,8 @@ namespace Coolapk_UWP.Models
                 throw err;
             }
         }
+
+   
     }
 
     // 比如 新鲜图文
@@ -198,14 +210,34 @@ namespace Coolapk_UWP.Models
 
     public class ConfigCard : Entity { }
 
+    /// <summary>
+    /// 轮播图卡片
+    /// </summary>
     public class ImageCarouselCard : Entity { }
 
     public class IconScrollCard : Entity { }
+
+    public class ImageSquareScrollCard : Entity { }
+
+    public class ImageSquareCard : Entity { }
 
     public class Apk : Entity { }
 
     public class Product : Entity { }
 
+    public class Topic : Entity {
+        [JsonProperty(PropertyName = "follownum")]
+        public String FollownNumText { get { return "9999+"; }}
+    }
+
+    /// <summary>
+    /// 话题分类列表卡片实体类
+    /// </summary>
+    public class SelectorLinkCard : Entity { }
+
+    /// <summary>
+    /// 刷新卡片实体类
+    /// </summary>
     public class RefreshCard : Entity { }
 
     public class MainInit
@@ -215,14 +247,6 @@ namespace Coolapk_UWP.Models
         [JsonProperty("entities")]
         public IList<MainInitTabConfig> Tabs;
     }
-    public class MainInitTabConfig
-    {
-        public string Title;
-        [JsonProperty("page_name")]
-        public string PageName;
-        public string Url;
-        public string Logo;
-        [JsonProperty("entities")]
-        public IList<MainInitTabConfig> SubTabs;
-    }
+
+    
 }

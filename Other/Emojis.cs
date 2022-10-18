@@ -36,6 +36,7 @@ namespace Coolapk_UWP.Other
         static public Uri GetEmojiUriFor(string name)
         {
             return new Uri(@"ms-appx:///Assets/Emoji/" + EmojiMap[name] + ".png");
+            //return new Uri(@"ms-appx:///Other/Emoji/" + EmojiMap[name] + ".png");
         }
         static public async void LoadEmojisResw()
         {
@@ -56,7 +57,7 @@ namespace Coolapk_UWP.Other
             }
             catch (Exception ex)
             {
-
+                
             }
         }
     }

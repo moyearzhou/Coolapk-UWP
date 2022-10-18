@@ -100,10 +100,27 @@ namespace Coolapk_UWP.Network
             [Body(BodySerializationMethod.UrlEncoded)] OssUploadPicturePrepareBody body
         );
 
+        /// <summary>
+        /// 获取Feed的信息
+        /// </summary>
+        /// <param name="id">Feed的uid</param>
+        /// <returns></returns>
         [Get("/v6/feed/detail")]
         Task<Resp<FeedDetail>> GetFeedDetail(uint id);
 
-
+        /// <summary>
+        /// 获取Feed的评论列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="page">评论列表分页的序号，默认第一页</param>
+        /// <param name="listType">评论排列顺序类型，默认是按更新时间倒叙</param>
+        /// <param name="discussMode"></param>
+        /// <param name="feedType"></param>
+        /// <param name="blockStatus"></param>
+        /// <param name="fromFeedAuthor"></param>
+        /// <param name="lastItem"></param>
+        /// <param name="firstItem"></param>
+        /// <returns></returns>
         [Get("/v6/feed/replyList")]
         Task<CollectionResp<FeedReply>> GetFeedReplyList(
             uint id,
@@ -116,6 +133,11 @@ namespace Coolapk_UWP.Network
             uint? lastItem = null,
             uint? firstItem = null);
 
+        /// <summary>
+        /// 给feed文章点赞
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [Post("/v6/feed/like")]
         Task<Resp<LikeActionResult>> DoLike(uint id);
 
@@ -127,6 +149,45 @@ namespace Coolapk_UWP.Network
         //[Multipart]
         //Task<Resp<Unknow>> CreateHtmlArticleFeed(CreateHtmlArticleFeedBody body);
 
+        /// <summary>
+        /// 创建feed文章
+        /// </summary>
+        /// <param name="message"></param>
+        /// <param name="messageTitle"></param>
+        /// <param name="messageCover"></param>
+        /// <param name="type"></param>
+        /// <param name="isHtmlArticle"></param>
+        /// <param name="pic"></param>
+        /// <param name="status"></param>
+        /// <param name="location"></param>
+        /// <param name="longLocation"></param>
+        /// <param name="latitude"></param>
+        /// <param name="longitude"></param>
+        /// <param name="mediaPic"></param>
+        /// <param name="messageBrief"></param>
+        /// <param name="extraTitle"></param>
+        /// <param name="extraUrl"></param>
+        /// <param name="extraKey"></param>
+        /// <param name="extraPic"></param>
+        /// <param name="extraInfo"></param>
+        /// <param name="disallowRepost"></param>
+        /// <param name="isAnonymous"></param>
+        /// <param name="isEditindyh"></param>
+        /// <param name="forwardid"></param>
+        /// <param name="fid"></param>
+        /// <param name="dyhId"></param>
+        /// <param name="targetType"></param>
+        /// <param name="productId"></param>
+        /// <param name="province"></param>
+        /// <param name="cityCode"></param>
+        /// <param name="targetId"></param>
+        /// <param name="locationCity"></param>
+        /// <param name="locationCountry"></param>
+        /// <param name="voteScore"></param>
+        /// <param name="replyWithForward"></param>
+        /// <param name="mediaInfo"></param>
+        /// <param name="insertProductMedia"></param>
+        /// <returns></returns>
         [Post("/v6/feed/createFeed")]
         [Multipart]
         Task<Resp<Unknow>> CreateHtmlArticleFeed(string message,

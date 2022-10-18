@@ -22,6 +22,7 @@ using Windows.UI;
 using System.Threading.Tasks;
 using Coolapk_UWP.Other;
 using Windows.ApplicationModel.Background;
+using Windows.Storage;
 
 namespace Coolapk_UWP
 {
@@ -36,6 +37,23 @@ namespace Coolapk_UWP
             EmojisUtil.LoadEmojisResw();
             this.Suspending += OnSuspending;
             App.AppViewModel = new AppViewModel();
+
+            InitAppTheme();
+        }
+
+        private void InitAppTheme()
+        {
+            this.RequestedTheme = ApplicationTheme.Dark;
+
+            //if ((int)ApplicationData.Current.LocalSettings.Values["Theme"] == 0)
+            //{
+            //    this.RequestedTheme = ApplicationTheme.Light;
+            //}
+            //else if ((int)ApplicationData.Current.LocalSettings.Values["Theme"] == 1)
+            //{
+            //    this.RequestedTheme = ApplicationTheme.Dark;
+            //}
+
         }
 
         private void HandleActivation(IActivatedEventArgs e)
@@ -61,7 +79,8 @@ namespace Coolapk_UWP
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(Home), launch.Arguments);
+                    //rootFrame.Navigate(typeof(HomePage), launch.Arguments);
+                    rootFrame.Navigate(typeof(MainPage), launch.Arguments);
                 }
                 Window.Current.Activate();
             }
@@ -69,7 +88,8 @@ namespace Coolapk_UWP
             {
                 if (rootFrame.Content == null)
                 {
-                    rootFrame.Navigate(typeof(Home));
+                    //rootFrame.Navigate(typeof(HomePage));
+                    rootFrame.Navigate(typeof(MainPage));
                 }
                 Window.Current.Activate();
             }

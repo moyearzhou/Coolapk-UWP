@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Coolapk_UWP.Controls {
+    
     public class AsyncLoadStateTemplateSelector : DataTemplateSelector {
         public DataTemplate DefaultLoadingTemplate { get; set; }
         public DataTemplate DefaultLoadedTemplate { get; set; }

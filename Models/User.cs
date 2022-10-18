@@ -6,11 +6,20 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Coolapk_UWP.Models {
+
     public class User : Entity {
         public uint Uid { get; set; }
         public string Username { get; set; }
         public string Bio { get; set; }
+
+        /// <summary>
+        /// 该用户关注的人数
+        /// </summary>
         public uint Follow { get; set; }
+
+        /// <summary>
+        /// 用户粉丝数
+        /// </summary>
         public uint Fans { get; set; }
         [JsonProperty(PropertyName = "userAvatar")]
         public string Avatar { get; set; }

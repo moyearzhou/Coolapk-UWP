@@ -1,8 +1,10 @@
-﻿using System;
+﻿using Coolapk_UWP.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Core;
@@ -24,7 +26,12 @@ namespace Coolapk_UWP.Pages
         public PhotoGralley()
         {
             this.InitializeComponent();
+
+            //设置自定义标题栏
+            var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
+            coreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(AppTitleBar);
+
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -40,11 +47,7 @@ namespace Coolapk_UWP.Pages
         public static void Navigate(IList<string> PicArr)
         {
             (Window.Current.Content as Frame).Navigate(typeof(PhotoGralley), PicArr);
-        }
-
-        private void Back_Button_Click(object sender, RoutedEventArgs e)
-        {
-            (Window.Current.Content as Frame).GoBack();
+            //todo: 默认打开点开的图片！！！！！
         }
 
         private void SaveAll_Click(object sender, RoutedEventArgs e)
@@ -62,6 +65,15 @@ namespace Coolapk_UWP.Pages
             {
 
             }
+        }
+
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            //(Window.Current.Content as Frame).GoBack();
+            //var frame = App.AppViewModel.HomeContentFrame;
+            var frame = (Window.Current.Content as Frame);
+
+            if (frame.CanGoBack) frame.GoBack();
         }
     }
 }

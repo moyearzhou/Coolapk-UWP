@@ -10,54 +10,81 @@ using Microsoft.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml;
 using Coolapk_UWP.Controls;
+using System.Collections;
 
 namespace Coolapk_UWP.ViewModels
 {
+
+    public class MenuItem 
+    {
+        public String Name { get; set; }
+        public Symbol Icon { get; set; }
+    }
+
     public class HomeMenuItem
     {
         public String Name { get; set; }
         public Symbol Icon { get; set; }
         public String Logo { get; set; }
+
+        /// <summary>
+        /// 点击item默认打开的页面的配置信息
+        /// </summary>
         public MainInitTabConfig DefaultConfig { get; set; }
         public MainInitTabConfig Config { get; set; }
         public IList<HomeMenuItem> Children { get; set; }
     }
 
-    public class SpecialHomeMenuItem : HomeMenuItem
-    {
-        public string Tag;
-    }
+    //public class SpecialHomeMenuItem : HomeMenuItem
+    //{
+    //    public string Tag;
+    //}
 
     public class HomeNavigationViewMenuTemplateSelector : DataTemplateSelector
     {
+        public DataTemplate NavItemTemplate { get; set; }
+
         public DataTemplate NoIconTemplate { get; set; }
         public DataTemplate IconTemplate { get; set; }
         public DataTemplate LogoTemplate { get; set; }
+
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject container)
         {
-            var _item = (HomeMenuItem)item;
-            if (_item == null) return NoIconTemplate;
-            if (_item.Config == null) return IconTemplate;
-            else if (_item.Logo != null && _item.Logo.Length > 7) return LogoTemplate;
-            else return NoIconTemplate;
+            if (item is MenuItem)
+            {
+                return NavItemTemplate;
+            } 
+            else if (item is HomeMenuItem)
+            {
+                var _item = (HomeMenuItem)item;
+                if (_item == null) return NoIconTemplate;
+                if (_item.Config == null) return IconTemplate;
+                else if (_item.Logo != null && _item.Logo.Length > 7) return LogoTemplate;
+                else return NoIconTemplate;
+            }
+
+            return NoIconTemplate;
+            //return null;
         }
     }
 
     public class HomeViewModel : AsyncLoadViewModel<IList<MainInit>>
     {
-        // 不会改变的
+        // 主页tab页面
         public IList<MainInitTabConfig> HomeTabs => Data?[1]?.Tabs;
+        // 数码页面
         public IList<MainInitTabConfig> DigitalTabs => Data?[3]?.Tabs;
         public IList<MainInitTabConfig> DiscoveryTabs => Data?[2]?.Tabs;
 
-        public IList<HomeMenuItem> BottomItems = new List<HomeMenuItem>() {
-            new SpecialHomeMenuItem() {
-                Name = "发布动态",
-                Icon = Symbol.Edit,
-                Tag = "发布动态"
-            }
+        public IList<MenuItem> FootMenu = new List<MenuItem>()
+        {
+            new MenuItem() { Name = "发布动态", Icon = Symbol.Edit},
+            new MenuItem() { Name = "账户", Icon = Symbol.Contact},
         };
 
+       /// <summary>
+       /// NavgationView页面的tab信息
+       /// </summary>
         public IList<HomeMenuItem> Tabs
         {
             get
@@ -66,7 +93,7 @@ namespace Coolapk_UWP.ViewModels
                     new HomeMenuItem() {
                         Name = "首页",
                         Icon = Symbol.Home,
-                        DefaultConfig = HomeTabs[1], // 头条
+                        //DefaultConfig = HomeTabs[1], // 头条
                         Children = HomeTabs.Select(tab => new HomeMenuItem(){
                             Name = tab.Title,
                             Config = tab,
@@ -82,7 +109,7 @@ namespace Coolapk_UWP.ViewModels
                     new HomeMenuItem() {
                         Name = "数码",
                         Icon = Symbol.CellPhone,
-                        DefaultConfig = DigitalTabs[0],
+                        //DefaultConfig = DigitalTabs[0],
                         Children = DigitalTabs.Select(tab => new HomeMenuItem(){
                             Name = tab.Title,
                             Config = tab,
@@ -92,7 +119,7 @@ namespace Coolapk_UWP.ViewModels
                     new HomeMenuItem() {
                         Name = "发现",
                         Icon = Symbol.Find,
-                        DefaultConfig = DiscoveryTabs[0],
+                        //DefaultConfig = DiscoveryTabs[0],
                         Children = DiscoveryTabs.Select(tab => new HomeMenuItem(){
                             Name = tab.Title,
                             Config = tab,
@@ -103,10 +130,15 @@ namespace Coolapk_UWP.ViewModels
             }
         }
 
+        /// <summary>
+        /// 异步获取主页tab信息
+        /// </summary>
+        /// <returns></returns>
         public override async Task<RespBase<IList<MainInit>>> OnLoadAsync()
         {
             try
             {
+                //todo: 
                 var config = await CoolapkApis.GetMainInit();
 
                 config.Data[1].Tabs[0].SubTabs.RemoveAt(0); // 关注分组 

@@ -9,14 +9,14 @@
 
 	<Identity
 	  Name="9924836e-d7cf-493b-82f1-df238f8fb7c7"
-	  Publisher="CN=Cyenoch"
-	  Version="0.1.0.0" />
+	  Publisher="CN=Moyear"
+	  Version="0.1.1.0" />
 
 	<mp:PhoneIdentity PhoneProductId="9924836e-d7cf-493b-82f1-df238f8fb7c7" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
 	<Properties>
 		<DisplayName>Coolapk_UWP</DisplayName>
-		<PublisherDisplayName>Cyenoch</PublisherDisplayName>
+		<PublisherDisplayName>Moyear</PublisherDisplayName>
 		<Logo>Assets\StoreLogo.png</Logo>
 	</Properties>
 
@@ -40,7 +40,7 @@
 			  BackgroundColor="transparent">
 				<uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png">
 				</uap:DefaultTile >
-				<uap:SplashScreen Image="Assets\SplashScreen.png" />
+				<uap:SplashScreen Image="Assets\SplashScreen.png"   BackgroundColor="white"/>
 				<uap:InitialRotationPreference>
 					<uap:Rotation Preference="landscape"/>
 					<uap:Rotation Preference="portrait"/>

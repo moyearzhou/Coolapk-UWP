@@ -10,33 +10,33 @@ using Windows.UI.Xaml.Controls;
 
 namespace Coolapk_UWP.Controls
 {
-    public sealed partial class DataList : UserControl, INotifyPropertyChanged
+    public sealed partial class FeedsDataList : UserControl, INotifyPropertyChanged
     {
         // 对于GetDataList，需要Title参数
         public static readonly DependencyProperty titleProperty = DependencyProperty.Register(
             "Title",
             typeof(string),
-            typeof(DataList),
+            typeof(FeedsDataList),
             null
         );
         // 
         public static readonly DependencyProperty urlProperty = DependencyProperty.Register(
             "Url",
             typeof(string),
-            typeof(DataList),
+            typeof(FeedsDataList),
             null
         );
         // 如果是头条页，则用另一个请求接口 复用该组件
         public static readonly DependencyProperty toutiaoMode = DependencyProperty.Register(
             "TouTiao",
             typeof(bool),
-            typeof(DataList),
+            typeof(FeedsDataList),
             new PropertyMetadata(false)
         );
         public static readonly DependencyProperty customMode = DependencyProperty.Register(
              "CustomMode",
              typeof(bool),
-             typeof(DataList),
+             typeof(FeedsDataList),
              new PropertyMetadata(false)
          );
 
@@ -64,7 +64,7 @@ namespace Coolapk_UWP.Controls
 
         public uint installTime = (uint)AppUtil.DateToTimeStamp(DateTime.Now);
 
-        public DataList()
+        public FeedsDataList()
         {
             this.InitializeComponent();
             //DispatcherPriority.DataBind = 8
@@ -118,7 +118,7 @@ namespace Coolapk_UWP.Controls
             // f*ck
         }
 
-        private void EntityListView_ItemClick(object sender, ItemClickEventArgs e)
+        private async void EntityListView_ItemClick(object sender, ItemClickEventArgs e)
         {
             var entity = e.ClickedItem;
             if (entity is Feed)
@@ -129,7 +129,7 @@ namespace Coolapk_UWP.Controls
             }
             if (entity is RefreshCard)
             {
-                Entities.Reload();
+                await Entities.Reload();
             }
         }
 
@@ -146,9 +146,9 @@ namespace Coolapk_UWP.Controls
             });
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void Button_Click(object sender, RoutedEventArgs e)
         {
-            Entities.Reload();
+            await Entities.Reload();
         }
     }
 }

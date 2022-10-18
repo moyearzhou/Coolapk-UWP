@@ -1,5 +1,7 @@
 ﻿using Coolapk_UWP.Controls;
+using Coolapk_UWP.Network;
 using Coolapk_UWP.Other;
+using Coolapk_UWP.ViewModels;
 using Microsoft.UI.Xaml.Controls;
 using System;
 using System.Collections.Generic;
@@ -17,6 +19,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using NavigationViewItem = Windows.UI.Xaml.Controls.NavigationViewItem;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -24,19 +27,22 @@ namespace Coolapk_UWP.Pages
 {
     public sealed partial class SearchResult
     {
+
+        public SearchResultViewModel viewModel = new SearchResultViewModel();
+
         public SearchResult()
         {
             NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             this.InitializeComponent();
             var coreTitleBar = Windows.ApplicationModel.Core.CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
-            tabView.Resources["TabViewHeaderPadding"] = new Thickness { Top = coreTitleBar.Height };
+            //tabView.Resources["TabViewHeaderPadding"] = new Thickness { Top = coreTitleBar.Height };
         }
 
         private void CoreTitleBar_LayoutMetricsChanged(Windows.ApplicationModel.Core.CoreApplicationViewTitleBar sender, object args)
         {
             //tabView.SetValue(TabViewHeaderPadding, new Thickness { Top = sender.Height });
-            tabView.Resources["TabViewHeaderPadding"] = new Thickness { Top = sender.Height };
+            //tabView.Resources["TabViewHeaderPadding"] = new Thickness { Top = sender.Height };
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -44,96 +50,37 @@ namespace Coolapk_UWP.Pages
             base.OnNavigatedTo(e);
             if (e.Parameter is string queryText)
             {
-                tabView.TabItems.Clear();
-                tabView.IsAddTabButtonVisible = false;
+                //tabView.TabItems.Clear();
+                //tabView.IsAddTabButtonVisible = false;
+
+                tabPivot.Items.Clear();
 
                 var apis = App.AppViewModel.CoolapkApis;
 
-                var zhDataList = new DataList();
-                zhDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, page: config.Page)).Data;
+                var tabItems = viewModel.GetTabItems(apis, queryText);
 
-
-                // https://api.coolapk.com/v6/search?type=product&searchValue=a&page=1&showAnonymous=-1
-                // lastItem maybe has a bug
-                var digitalDataList = new DataList();
-                digitalDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "product", page: config.Page, lastItem: config.LastItem)).Data;
-
-
-                var userDataList = new DataList();
-                userDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "user", page: config.Page, lastItem: config.LastItem)).Data;
-
-                // TODO: sort selector, feed type selector
-                var feedDataList = new DataList();
-                feedDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "feed", feedType: "all", sort: "default", page: config.Page, lastItem: config.LastItem)).Data;
-
-                var topicDataList = new DataList();
-                topicDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "feedTopic", page: config.Page, lastItem: config.LastItem)).Data;
-
-                var goodsDataList = new DataList();
-                goodsDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "goods", page: config.Page, lastItem: config.LastItem)).Data;
-
-                // URL	https://api.coolapk.com/v6/search?type=ershou&sort=default&searchValue=a&status=1&deal_type=0&city_code=&is_link=&exchange_type=&ershou_type=&product_id=&page=1
-                var ershouDataList = new DataList();
-                ershouDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "ershou", page: config.Page, lastItem: config.LastItem)).Data;
-
-                // TODO: feed type selector
-                var askDataList = new DataList();
-                askDataList.CustomFetchDataEvent += async (config) => (await apis.Search(queryText, type: "ask", feedType: "all", page: config.Page, lastItem: config.LastItem)).Data;
-
-                foreach (var item in new List<TabViewItem>() {
-                    new TabViewItem
-                    {
-                        Header = "动态",
-                        Content = feedDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "综合",
-                        Content = zhDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "数码",
-                        Content = digitalDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "用户",
-                        Content = userDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "话题",
-                        Content = topicDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "好物",
-                        Content = goodsDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "二手",
-                        Content = ershouDataList
-                    },
-                    new TabViewItem
-                    {
-                        Header = "问答",
-                        Content = askDataList
-                    }
-                })
+                foreach (var itemInfo in tabItems)
                 {
-                    item.Padding = new Thickness { Top = 20 };
-                    tabView.TabItems.Add(item);
+                    //TabViewItem item = new TabViewItem();
+
+                    PivotItem item = new PivotItem();
+                    item.Header = itemInfo.Header;
+                    item.Content = itemInfo.Content;
+
+                    tabPivot.Items.Add(item);
+
+                    //item.IsClosable = false;
+                    //item.Padding = new Thickness { Top = 20 };
+                    //tabView.TabItems.Add(item);
                 }
 
-
-                foreach (var item in tabView.TabItems)
-                {
-                    ((TabViewItem)item).IsClosable = false;
-                }
-                ((TabViewItem)tabView.TabItems[0]).IsSelected = true;
+                //设置默认选中第一个tab
+                //((TabViewItem)tabView.TabItems[0]).IsSelected = true;
             }
         }
+
+        
+
     }
+   
 }

@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Coolapk_UWP.Network {
+
     public partial interface ICoolapkApis {
         [Get("/v6/user/profile")]
         Task<Resp<UserProfile>> GetUserProfile(uint uid, int installTime);
@@ -30,7 +31,14 @@ namespace Coolapk_UWP.Network {
             uint showDoing = 1
          );
 
-        // 获取某人的图文动态
+
+        /// <summary>
+        /// 获取某人的图文动态
+        /// </summary>
+        /// <param name="uid"></param>
+        /// <param name="page"></param>
+        /// <param name="lastItem"></param>
+        /// <returns></returns>
         [Get("/v6/user/htmlFeedList")]
         Task<CollectionResp<Entity>> GetUserHtmlFeedList(uint uid, uint page = 1, uint? lastItem = null);
 
@@ -53,5 +61,9 @@ namespace Coolapk_UWP.Network {
         // 使用当前登录的用户关注某用户
         [Get("/v6/user/follow")]
         Task<CollectionResp<Entity>> Follow(uint uid);
+
+        // 使用当前登录的用户取消某用户
+        [Get("/v6/user/unfollow")]
+        Task<CollectionResp<Entity>> Unfollow(uint uid);
     }
 }

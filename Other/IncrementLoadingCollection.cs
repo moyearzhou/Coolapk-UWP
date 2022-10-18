@@ -18,6 +18,10 @@ namespace Coolapk_UWP.Other {
         public uint? FirstItem { get; set; }
     }
 
+    /// <summary>
+    /// 增量实体集合类
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class IncrementalLoadingEntityCollection<T> : ObservableCollection<T>, ISupportIncrementalLoading where T : Entity {
         public uint Page = 1;
         public uint Size = 5;

@@ -46,7 +46,7 @@ namespace Coolapk_UWP.Models
                 if (_cachedMessageWithEmojiJoined.Equals(String.Empty))
                 {
                     var msg = Message;
-                    Other.EmojisUtil.Emojis.ForEach(emoji =>
+                    Other.EmojisUtil.Emojis?.ForEach(emoji =>
                     {
                         msg = msg.Replace(emoji, "<emoji src=\"" + Other.EmojisUtil.GetEmojiUriFor(emoji) + "\" />");
                     });

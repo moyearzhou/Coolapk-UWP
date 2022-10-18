@@ -2,9 +2,9 @@
     x:Class="Coolapk_UWP.App"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:viewModels="using:Coolapk_UWP.ViewModels"
+    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters"
     xmlns:other="using:Coolapk_UWP.Other"
-    xmlns:converters="using:Microsoft.Toolkit.Uwp.UI.Converters">
+    xmlns:viewModels="using:Coolapk_UWP.ViewModels">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -16,13 +16,19 @@
             <other:IsNotEmptyToVisibleConverter x:Key="IsNotEmptyToVisibleConverter" />
             <other:IsFalseOrNullToVisibleConverter x:Key="IsFalseOrNullToVisibleConverter" />
             <other:IsFalseToVisibleConverter x:Key="IsFalseToVisibleConverter" />
-            <other:IsTrueToVisibleConverter x:Key="IsTrueToVisibleConverter"/>
-            <other:NegateBoolConverter x:Key="NegateBoolConverter"/>
+            <other:IsTrueToVisibleConverter x:Key="IsTrueToVisibleConverter" />
+            <other:NegateBoolConverter x:Key="NegateBoolConverter" />
+
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light" Source="ms-appx:///Themes/Theme.Light.xaml" />
+                <ResourceDictionary x:Key="Dark" Source="ms-appx:///Themes/Theme.Dark.xaml" />
+            </ResourceDictionary.ThemeDictionaries>
 
             <ResourceDictionary.MergedDictionaries>
                 <XamlControlsResources xmlns="using:Microsoft.UI.Xaml.Controls" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
+
     </Application.Resources>
 
 </Application>

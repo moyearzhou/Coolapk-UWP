@@ -15,9 +15,13 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace Coolapk_UWP.Pages {
+
     public sealed partial class FeedDetail : Page {
+
         public FeedDetailViewModel ViewModel => DataContext as FeedDetailViewModel;
+       
         public uint? previewFeedId;
+     
         public FeedDetail() {
             this.InitializeComponent();
         }
@@ -28,7 +32,9 @@ namespace Coolapk_UWP.Pages {
                 ViewModel.ErrorMessage = "请传入正确的参数";
                 return;
             } else if (ViewModel.Data == null || previewFeedId == null || (uint)param != previewFeedId) {
-                ViewModel.FeedId = (uint)param;
+                //根据从传入的feedId获取feed信息，并刷新页面
+                //ViewModel.FeedId = (uint)param;
+                ViewModel.UpdateFeedInfo((uint)param);
                 ViewModel.Reload();
                 previewFeedId = (uint)param;
             }
@@ -42,7 +48,24 @@ namespace Coolapk_UWP.Pages {
             App.AppViewModel.HomeContentFrame.Navigate(typeof(UserProfile), ViewModel.Data.UserInfo.Uid);
         }
 
-        private void FollowButton_Click(object sender, RoutedEventArgs e) {
+        private async void FollowButton_Click(object sender, RoutedEventArgs e) {
+
+            try
+            {
+                _ = await ViewModel.ToggleFollow();
+
+                //FollowButton.Content = "取消关注";
+            }
+            catch (Exception err)
+            {
+                var dialog = new ContentDialog()
+                {
+                    PrimaryButtonText = "确定",
+                    Content = err.Message,
+                    Title = "关注失败",
+                };
+                _ = dialog.ShowAsync();
+            }
 
         }
 
@@ -57,6 +80,19 @@ namespace Coolapk_UWP.Pages {
                 };
                 _ = dialog.ShowAsync();
             }
+        }
+
+        private void RefreshButton_Click(object sender, RoutedEventArgs e)
+        {
+            //ViewModel.Reload();
+            // 刷新评论
+            ReplyListView.UpdateRelay();
+        }
+
+        private void Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            //刷新文章
+            ViewModel.Reload();
         }
     }
 }

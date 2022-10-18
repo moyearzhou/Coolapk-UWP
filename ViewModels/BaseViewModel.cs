@@ -15,13 +15,23 @@ namespace Coolapk_UWP.ViewModels
     public class BaseViewModel : INotifyPropertyChanged
     {
         public AppViewModel AppViewModel => App.AppViewModel;
+
         public ICoolapkApis CoolapkApis => AppViewModel.CoolapkApis;
+
         public ApplicationDataContainer LocalSettings => AppViewModel.LocalSettings;
+        
+        /// <summary>
+        /// 应用的RootFrame
+        /// </summary>
         public Frame AppRootFrame
         {
             get { return AppViewModel.AppRootFrame; }
             set { AppViewModel.AppRootFrame = value; }
         }
+
+        /// <summary>
+        /// 主页内容Frame，是应用程序除了导航区域外的内容区域
+        /// </summary>
         public Frame HomeContentFrame
         {
             get { return AppViewModel.HomeContentFrame; }

@@ -26,6 +26,16 @@ namespace Coolapk_UWP.DataTemplates {
         public DataTemplate IconLinkGridCardTemplate { get; set; }
         public DataTemplate ImageTextScrollCardTemplate { get; set; }
         public DataTemplate RefreshCardTemplate { get; set; }
+
+
+        public DataTemplate ImageSquareScrollCardTemplate { get; set; }
+
+
+        public DataTemplate SelectorLinkCardTemplate { get; set; }
+
+        public DataTemplate TopicCardTemplate { get; set; }
+
+
         // 根据item的对象类型分配模板
         protected override DataTemplate SelectTemplateCore(object item, DependencyObject c) {
             switch (item) {
@@ -45,6 +55,12 @@ namespace Coolapk_UWP.DataTemplates {
                     return ImageTextScrollCardTemplate;
                 case RefreshCard _:
                     return RefreshCardTemplate;
+                case ImageSquareScrollCard _:
+                    return ImageSquareScrollCardTemplate;
+                case SelectorLinkCard _:
+                    return SelectorLinkCardTemplate;
+                case Topic _:
+                    return TopicCardTemplate;
                 default:
                     return DefaultTemplate;
             }
@@ -60,6 +76,7 @@ namespace Coolapk_UWP.DataTemplates {
             switch (item) {
                 case IconScrollCard _:
                 case IconLinkGridCard _:
+                case SelectorLinkCard _:
                 case ImageCarouselCard _:
                     return WidthLimitedContainer;
                 case Feed _:
