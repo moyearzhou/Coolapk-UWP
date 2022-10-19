@@ -20,7 +20,7 @@
     <PackageCertificateKeyFile>
     </PackageCertificateKeyFile>
     <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <PackageCertificateThumbprint>63BDF8278F56C1DF8664F06E07BDA871812E00BA</PackageCertificateThumbprint>
+    <PackageCertificateThumbprint>7A3A373B7057CA3CBF7F24990F77B203CF5256D1</PackageCertificateThumbprint>
     <AppxPackageSigningTimestampDigestAlgorithm>SHA256</AppxPackageSigningTimestampDigestAlgorithm>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <GenerateTestArtifacts>True</GenerateTestArtifacts>
@@ -218,6 +218,7 @@
     <None Include="Assets\emojimap.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Coolapk-UWP_TemporaryKey.pfx" />
     <None Include="README.md" />
     <Page Include="Controls\Settings\ThemeSettingSection.xaml">
       <SubType>Designer</SubType>
@@ -803,12 +804,6 @@
     <PackageReference Include="Refit.Newtonsoft.Json">
       <Version>6.0.94</Version>
     </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\CoolApkApi\CoolApkApi.csproj">
-      <Project>{e3fd9cab-5294-41ec-b668-b4a93e805303}</Project>
-      <Name>CoolApkApi</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Page Include="Controls\AsyncLoadStateControl.xaml">
