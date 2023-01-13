@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -97,9 +98,9 @@ namespace Coolapk_UWP.Pages
                     case "主页":
                         ContentFrame.Navigate(typeof(Home));
                         break;
-                    case "发布动态":
-                        App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.CreateFeed));
-                        break;
+                    //case "发布动态":
+                    //    App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.CreateFeed));
+                    //    break;
                     case "账户":
                         bool isLoged = App.AppViewModel.IsLogged;
 
@@ -113,13 +114,30 @@ namespace Coolapk_UWP.Pages
                         }
                         else
                         {
+
+                            //LoginAccountAsync();
+
                             //App.AppViewModel.LoadLoginState();
                             App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.Login));
+
                         }
                         break;
                 }
 
             }
+        }
+
+        private async Task LoginAccountAsync()
+        {
+            ContentDialog dialog = new ContentDialog();
+            //dialog.Title = "Save your work?";
+            dialog.PrimaryButtonText = "取消";
+            //dialog.SecondaryButtonText = "Don't Save";
+            //dialog.CloseButtonText = "取消";
+            dialog.DefaultButton = ContentDialogButton.Primary;
+            dialog.Content = new Login();
+
+            var result = await dialog.ShowAsync();
         }
 
         private void NavigationViewControl_DisplayModeChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewDisplayModeChangedEventArgs args)

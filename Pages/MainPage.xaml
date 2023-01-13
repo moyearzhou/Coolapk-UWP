@@ -112,18 +112,18 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <muxc:NavigationViewItem
+                <!--<muxc:NavigationViewItem
                     Content="发布动态"
                     Icon="Edit"
-                    Tag="发布动态" />
+                    Tag="发布动态" />-->
                 <muxc:NavigationViewItem
                     Content="账户"
                     Icon="Contact"
                     Tag="账户" />
-                <muxc:NavigationViewItem
+                <!--<muxc:NavigationViewItem
                     Content="帮助"
                     Icon="Help"
-                    Tag="SamplePage5" />
+                    Tag="SamplePage5" />-->
             </muxc:NavigationView.FooterMenuItems>
 
             <Frame x:Name="ContentFrame" Loaded="ContentFrameControl_Loaded" />

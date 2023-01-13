@@ -1,6 +1,7 @@
 ﻿using Coolapk_UWP.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -34,9 +35,18 @@ namespace Coolapk_UWP.Pages {
             } else if (ViewModel.Data == null || previewFeedId == null || (uint)param != previewFeedId) {
                 //根据从传入的feedId获取feed信息，并刷新页面
                 //ViewModel.FeedId = (uint)param;
-                ViewModel.UpdateFeedInfo((uint)param);
+                var feedId = (uint)param;
+
+                ViewModel.UpdateFeedInfo(feedId);
                 ViewModel.Reload();
                 previewFeedId = (uint)param;
+
+                // 更新评论列表的FeedId
+                ReplyListView.FeedId = feedId;
+                // 刷新评论列表界面
+                ReplyListView.UpdateRelay();
+
+                //Debug.WriteLine($"当前的feedId：{feedId}, 之前的feedId：{previewFeedId}");
             }
         }
 
