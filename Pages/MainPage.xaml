@@ -15,10 +15,10 @@
     </Page.DataContext>
 
     <Page.Resources>
-        <x:Double x:Key="NavItemWidth">461</x:Double>
+        <x:Double x:Key="NavPaneWidth">270</x:Double>
         <Thickness x:Key="NavigationViewContentMargin">0,48,0,0</Thickness>
-        <Thickness x:Key="NavigationViewContentGridBorderThickness">0</Thickness>
-        <SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />
+        <Thickness x:Key="NavigationViewContentGridBorderThickness">2</Thickness>
+        <!--<SolidColorBrush x:Key="NavigationViewContentBackground" Color="Transparent" />-->
     </Page.Resources>
 
     <Grid>
@@ -53,20 +53,20 @@
             VerticalAlignment="Stretch"
             AlwaysShowHeader="False"
             BackRequested="NavigationViewControl_BackRequested"
-            Background="Transparent"
             Canvas.ZIndex="0"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind ContentFrame.CanGoBack, Mode=OneWay}"
-            IsPaneOpen="False"
+            IsPaneOpen="True"
             IsTitleBarAutoPaddingEnabled="False"
             ItemInvoked="NavigationViewControl_ItemInvoked"
             Loaded="NavigationViewControl_Loaded"
+            OpenPaneLength="{StaticResource NavPaneWidth}"
             SelectedItem="0"
             SelectionChanged="NavigationViewControl_SelectionChanged">
-            <muxc:NavigationView.Resources>
+            <!--<muxc:NavigationView.Resources>
                 <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0,0,0,0</CornerRadius>
-            </muxc:NavigationView.Resources>
+            </muxc:NavigationView.Resources>-->
 
             <muxc:NavigationView.AutoSuggestBox>
                 <AutoSuggestBox
@@ -84,6 +84,14 @@
                     IsSelected="True"
                     Tag="主页" />
                 <muxc:NavigationViewItem
+                    Content="数码"
+                    Icon="CellPhone"
+                    Tag="数码" />
+                <muxc:NavigationViewItem
+                    Content="发现"
+                    Icon="Find"
+                    Tag="发现" />
+                <muxc:NavigationViewItem
                     Content="关注"
                     Icon="Flag"
                     Tag="关注" />
@@ -95,10 +103,6 @@
                     Content="话题"
                     Icon="Tag"
                     Tag="话题" />
-                <muxc:NavigationViewItem
-                    Content="数码"
-                    Icon="CellPhone"
-                    Tag="数码" />
                 <muxc:NavigationViewItemHeader Content="更多" />
                 <muxc:NavigationViewItem
                     Content="历史记录"
@@ -112,10 +116,6 @@
             </muxc:NavigationView.MenuItems>
 
             <muxc:NavigationView.FooterMenuItems>
-                <!--<muxc:NavigationViewItem
-                    Content="发布动态"
-                    Icon="Edit"
-                    Tag="发布动态" />-->
                 <muxc:NavigationViewItem
                     Content="账户"
                     Icon="Contact"

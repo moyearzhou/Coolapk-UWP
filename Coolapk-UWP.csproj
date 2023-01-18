@@ -175,9 +175,6 @@
     <Compile Include="Pages\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\HomePage.xaml.cs">
-      <DependentUpon>HomePage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\LaunchPad.xaml.cs">
       <DependentUpon>LaunchPad.xaml</DependentUpon>
     </Compile>
@@ -208,6 +205,7 @@
     <Compile Include="ViewModels\FeedDetailViewModel.cs" />
     <Compile Include="ViewModels\GralleyViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="ViewModels\PhotoGalleryViewModel.cs" />
     <Compile Include="ViewModels\SearchResultViewModel.cs" />
     <Compile Include="ViewModels\UserProfileViewModel.cs" />
   </ItemGroup>
@@ -220,10 +218,6 @@
     </None>
     <None Include="README.md" />
     <Page Include="Controls\Settings\ThemeSettingSection.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\HomePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

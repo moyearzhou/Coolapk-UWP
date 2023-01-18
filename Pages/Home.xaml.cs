@@ -38,6 +38,22 @@ namespace Coolapk_UWP.Pages
             ((HomeViewModel)DataContext).Reload();
         }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.Parameter != null && e.Parameter is PageType pageType) {
+                HomeViewModel viewModel = DataContext as HomeViewModel;
+
+                if (ViewModel.curPageType != pageType)
+                {
+                    viewModel.setCurrentTabType(pageType);
+                    //刷新页面
+                    viewModel.Reload();
+                }
+            }
+        }
+
+
         public void AsyncLoadStateControl_Retry(object sender, RoutedEventArgs a)
         {
             ((HomeViewModel)DataContext).Reload();

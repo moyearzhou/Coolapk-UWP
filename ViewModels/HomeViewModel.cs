@@ -35,6 +35,16 @@ namespace Coolapk_UWP.ViewModels
         public IList<HomeMenuItem> Children { get; set; }
     }
 
+    /// <summary>
+    /// 页面的类型，有：主页，数码，发现等
+    /// </summary>
+    public enum PageType
+    {
+        Home,
+        Digital,
+        Discovery
+    }
+
     //public class SpecialHomeMenuItem : HomeMenuItem
     //{
     //    public string Tag;
@@ -71,10 +81,13 @@ namespace Coolapk_UWP.ViewModels
     public class HomeViewModel : AsyncLoadViewModel<IList<MainInit>>
     {
         // 主页tab页面
-        public IList<MainInitTabConfig> HomeTabs => Data?[1]?.Tabs;
+        public IList<MainInitTabConfig> HomeTabsConfig => Data?[1]?.Tabs;
         // 数码页面
-        public IList<MainInitTabConfig> DigitalTabs => Data?[3]?.Tabs;
-        public IList<MainInitTabConfig> DiscoveryTabs => Data?[2]?.Tabs;
+        public IList<MainInitTabConfig> DigitalTabsConfig => Data?[3]?.Tabs;
+        public IList<MainInitTabConfig> DiscoveryTabsConfig => Data?[2]?.Tabs;
+
+        //当前页面的类型，默认为主页
+        public PageType curPageType = PageType.Home;
 
         public IList<MenuItem> FootMenu = new List<MenuItem>()
         {
@@ -82,52 +95,59 @@ namespace Coolapk_UWP.ViewModels
             new MenuItem() { Name = "账户", Icon = Symbol.Contact},
         };
 
-       /// <summary>
-       /// NavgationView页面的tab信息
-       /// </summary>
-        public IList<HomeMenuItem> Tabs
-        {
+        public IList<HomeMenuItem> Tabs {
             get
             {
-                return HomeTabs == null ? new List<HomeMenuItem>() : new List<HomeMenuItem>() {
-                    new HomeMenuItem() {
-                        Name = "首页",
-                        Icon = Symbol.Home,
-                        //DefaultConfig = HomeTabs[1], // 头条
-                        Children = HomeTabs.Select(tab => new HomeMenuItem(){
-                            Name = tab.Title,
-                            Config = tab,
-                            Logo = tab.Logo,
-                            DefaultConfig = (tab.SubTabs?.Count ?? 0) > 0 ? tab.SubTabs[0]: null,
-                            Children = tab.SubTabs?.Select(stab => new HomeMenuItem(){
-                                Name = stab.Title,
-                                Config = stab,
-                                Logo = stab.Logo,
-                            })?.ToList(),
-                        }).ToList(),
-                    },
-                    new HomeMenuItem() {
-                        Name = "数码",
-                        Icon = Symbol.CellPhone,
-                        //DefaultConfig = DigitalTabs[0],
-                        Children = DigitalTabs.Select(tab => new HomeMenuItem(){
-                            Name = tab.Title,
-                            Config = tab,
-                            Logo = tab.Logo,
-                        }).ToList(),
-                    },
-                    new HomeMenuItem() {
-                        Name = "发现",
-                        Icon = Symbol.Find,
-                        //DefaultConfig = DiscoveryTabs[0],
-                        Children = DiscoveryTabs.Select(tab => new HomeMenuItem(){
-                            Name = tab.Title,
-                            Config = tab,
-                            Logo = tab.Logo,
-                        }).ToList(),
-                    }
-                };
+                if (tabs == null) return convertConfigToTabs(HomeTabsConfig);
+                return tabs;
             }
+            set {
+                tabs = value;
+                NotifyChanged();
+            } 
+        }
+
+        private IList<HomeMenuItem> tabs;
+
+        public IList<HomeMenuItem> convertConfigToTabs(IList<MainInitTabConfig> config)
+        {
+            return config.Select(tab => new HomeMenuItem()
+            {
+                Name = tab.Title,
+                Config = tab,
+                Logo = tab.Logo,
+                DefaultConfig = (tab.SubTabs?.Count ?? 0) > 0 ? tab.SubTabs[0] : null,
+                Children = tab.SubTabs?.Select(stab => new HomeMenuItem()
+                {
+                    Name = stab.Title,
+                    Config = stab,
+                    Logo = stab.Logo,
+                })?.ToList(),
+            }).ToList();
+        }
+
+        private IList<HomeMenuItem> convertToTabs(PageType type)
+        {
+            switch (type)
+            {
+                case PageType.Home: return convertConfigToTabs(HomeTabsConfig);
+                case PageType.Digital: return convertConfigToTabs(DigitalTabsConfig);
+                case PageType.Discovery: return convertConfigToTabs(DiscoveryTabsConfig);
+
+                default: return convertConfigToTabs(HomeTabsConfig);
+            }
+        }
+
+        /// <summary>
+        /// 设置当前页面的类型
+        /// </summary>
+        /// <param name="type"></param>
+        public void setCurrentTabType(PageType type)
+        {
+            if (curPageType == type) return;
+
+            Tabs = convertToTabs(type);
+            curPageType= type;
         }
 
         /// <summary>

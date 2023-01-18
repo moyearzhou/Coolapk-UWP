@@ -2,6 +2,7 @@
 using Coolapk_UWP.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -37,7 +38,6 @@ namespace Coolapk_UWP.Pages
             var coreTitleBar = CoreApplication.GetCurrentView().TitleBar;
             coreTitleBar.ExtendViewIntoTitleBar = true;
             Window.Current.SetTitleBar(AppTitleBar);
-
 
             coreTitleBar.LayoutMetricsChanged += CoreTitleBar_LayoutMetricsChanged;
             coreTitleBar.IsVisibleChanged += CoreTitleBar_IsVisibleChanged;
@@ -91,16 +91,23 @@ namespace Coolapk_UWP.Pages
             {
                 var navItemTag = args.InvokedItemContainer.Tag.ToString();
 
+                Debug.WriteLine(" 当前点击： " + navItemTag);
                 //var itemName = args.InvokedItemContainer.Name;
 
                 switch (navItemTag)
                 {
                     case "主页":
-                        ContentFrame.Navigate(typeof(Home));
+                        ContentFrame.Navigate(typeof(Home), PageType.Home);
                         break;
-                    //case "发布动态":
-                    //    App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.CreateFeed));
-                    //    break;
+                    case "数码":
+                        ContentFrame.Navigate(typeof(Home), PageType.Digital);
+                        break;
+                    case "发现":
+                        ContentFrame.Navigate(typeof(Home), PageType.Discovery);
+                        break;
+                    case "发布动态":
+                        App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.CreateFeed));
+                        break;
                     case "账户":
                         bool isLoged = App.AppViewModel.IsLogged;
 
@@ -114,13 +121,19 @@ namespace Coolapk_UWP.Pages
                         }
                         else
                         {
-
                             //LoginAccountAsync();
-
                             //App.AppViewModel.LoadLoginState();
                             App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.Login));
 
                         }
+                        break;
+                    default:
+                        var dialog = new ContentDialog();
+                        dialog.Title = "警告";
+                        dialog.Content = "具体内容代码待实现！！！！！";
+                        dialog.PrimaryButtonText = "确定";
+                        dialog.DefaultButton = ContentDialogButton.Primary;
+                        dialog.ShowAsync();
                         break;
                 }
 
@@ -186,23 +199,41 @@ namespace Coolapk_UWP.Pages
 
         private void NavigationViewControl_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
         {
-            //switch (args.SelectedItem)
-            //{
-            //    case NavigationViewItem viewItem:
-            //        switch (viewItem.Content)
-            //        {
-            //            case "设置":
-            //                App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.SettingPage));
-            //                break;
+            switch (args.SelectedItem)
+            {
+                case NavigationViewItem viewItem:
+                    switch (viewItem.Content)
+                    {
+                        //case "主页":
+                        //    ContentFrame.Navigate(typeof(Home), PageType.Home);
+                        //    break;
+                        //case "数码":
+                        //    ContentFrame.Navigate(typeof(Home), PageType.Digital);
+                        //    break;
+                        //case "发现":
+                        //    ContentFrame.Navigate(typeof(Home), PageType.Discovery);
+                        //    break;
 
-            //            case "账户":
-            //                //App.AppViewModel.LoadLoginState();
+                        //case "设置":
+                        //    App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.SettingPage));
+                        //    break;
 
-            //                //App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.Login));
-            //                break;
-            //        }
-            //        break;
-            //}
+                        //case "账户":
+                        //    //App.AppViewModel.LoadLoginState();
+
+                        //    //App.AppViewModel.HomeContentFrame.Navigate(typeof(Pages.Login));
+                        //    break;
+                        //default:
+                        //    var dialog = new ContentDialog();
+                        //    dialog.Title = "警告";
+                        //    dialog.Content = "具体内容代码待实现！！！！！";
+                        //    dialog.PrimaryButtonText = "确定";
+                        //    dialog.DefaultButton = ContentDialogButton.Primary;
+                        //    dialog.ShowAsync();
+                        //    break;
+                    }
+                    break;
+            }
         }
 
         private void ContentFrameControl_Loaded(object sender, RoutedEventArgs e)

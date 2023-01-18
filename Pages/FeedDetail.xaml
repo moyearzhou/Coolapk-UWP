@@ -110,9 +110,13 @@
                         ItemTemplateSelector="{StaticResource PicTextMixTemplateSelector}"
                         ItemsSource="{x:Bind Data.MessageRawWithFeed}"
                         SelectionMode="None">
-                        <interactivity:Interaction.Behaviors>
+                        <!--
+                            启用下面内容则会实现：在图文页面上滑拉出文章的标题和封面图。
+                            因为会占用大量空间而弃用
+                        -->
+                        <!--<interactivity:Interaction.Behaviors>
                             <behaviors:QuickReturnHeaderBehavior />
-                        </interactivity:Interaction.Behaviors>
+                        </interactivity:Interaction.Behaviors>-->
                         <ListView.Header>
                             <StackPanel Background="{ThemeResource AcrylicInAppFillColorDefaultBrush}" Orientation="Vertical">
                                 <cmui:ImageEx
@@ -122,13 +126,13 @@
                                     Source="{x:Bind Data.Cover}"
                                     Stretch="UniformToFill" />
                                 <TextBlock
-                                    MaxWidth="580"
+                                    MaxWidth="630"
                                     Margin="12,24,12,0"
                                     FontWeight="Bold"
                                     Style="{ThemeResource TitleTextBlockStyle}"
                                     Text="{x:Bind Data.Title}" />
 
-                                <Grid MaxWidth="580" Margin="12,24,12,12">
+                                <Grid MaxWidth="630" Margin="12,24,12,12">
                                     <Grid.RowDefinitions>
                                         <RowDefinition />
                                         <RowDefinition />

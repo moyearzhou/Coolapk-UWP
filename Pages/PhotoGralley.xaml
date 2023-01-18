@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Coolapk_UWP.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     xmlns:viewmodels="using:Coolapk_UWP.ViewModels"
     RequestedTheme="Dark"
     mc:Ignorable="d">
@@ -40,6 +41,17 @@
             AllowFocusOnInteraction="True"
             Background="Transparent"
             Canvas.ZIndex="1" />
+
+        <Border
+            Grid.Row="0"
+            Grid.RowSpan="3"
+            Margin="16"
+            Padding="16"
+            Canvas.ZIndex="1"
+            CornerRadius="8"
+            Visibility="Collapsed">
+            <muxc:ProgressRing IsActive="True" />
+        </Border>
 
         <FlipView
             x:Name="PhotosFlip"

@@ -67,6 +67,7 @@
                 x:Name="NavigationViewControl"
                 AlwaysShowHeader="False"
                 BackRequested="NavigationViewControl_BackRequested"
+                Background="Transparent"
                 Canvas.ZIndex="0"
                 IsBackButtonVisible="Collapsed"
                 IsBackEnabled="{x:Bind HomeContentFrame.CanGoBack, Mode=OneWay}"
@@ -77,27 +78,12 @@
                 MenuItemsSource="{x:Bind Tabs}"
                 PaneDisplayMode="Top"
                 SelectionChanged="NavigationViewControl_SelectionChanged">
-                <muxc:NavigationView.Resources>
-                    <CornerRadius x:Key="NavigationViewContentGridCornerRadius">0,0,0,0</CornerRadius>
-                </muxc:NavigationView.Resources>
 
                 <Frame
                     x:Name="ContentFrameControl"
                     Margin="{StaticResource NavigationViewContentMargin}"
                     Loaded="ContentFrameControl_Loaded" />
 
-                <!--<VisualStateManager.VisualStateGroups>
-                    <VisualStateGroup>
-                        <VisualState>
-                            <VisualState.StateTriggers>
-                                <AdaptiveTrigger MinWindowWidth="641" />
-                            </VisualState.StateTriggers>
-                            <VisualState.Setters>
-                                <Setter Target="ContentFrameControl.Margin" Value="0,0,0,0" />
-                            </VisualState.Setters>
-                        </VisualState>
-                    </VisualStateGroup>
-                </VisualStateManager.VisualStateGroups>-->
             </muxc:NavigationView>
         </DataTemplate>
 
